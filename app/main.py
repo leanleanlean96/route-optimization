@@ -1,5 +1,8 @@
 from contextlib import asynccontextmanager
 
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,6 +46,7 @@ async def lifespan(app: FastAPI):
     # shutdown
     await app.state.http_client.aclose()
     await app.state.db_client.dispose()
+
 
 main_app = FastAPI(
     title=config.app.name,

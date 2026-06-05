@@ -20,6 +20,15 @@ class JwtConfig(BaseModel):
     algorithm: str
 
 
+
+class JwtConfig(BaseModel):
+    secret_key: str
+    public_key: str
+    access_key_delta: timedelta = timedelta(minutes=15)
+    refresh_key_delta: timedelta = timedelta(days=2)
+    algorithm: str
+
+
 class DbConfig(BaseModel):
     url: PostgresDsn
     echo: bool = False
