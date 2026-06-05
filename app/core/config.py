@@ -1,15 +1,24 @@
 from datetime import timedelta
-from pydantic import BaseModel
-from pydantic import PostgresDsn
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
 from typing import ClassVar
+
+from pydantic import BaseModel, PostgresDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class AppConfig(BaseModel):
     name: str = "RootOptimization"
     host: str = "0.0.0.0"
     port: int = 8080
+    frontend_url: str = "http://localhost:3000"
+
+
+class JwtConfig(BaseModel):
+    secret_key: str
+    public_key: str
+    access_key_delta: timedelta = timedelta(minutes=15)
+    refresh_key_delta: timedelta = timedelta(days=2)
+    algorithm: str
+
 
 
 class JwtConfig(BaseModel):
@@ -58,6 +67,7 @@ class Config(BaseSettings):
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
+        extra="ignore",
     )
     app: AppConfig = AppConfig()
     prefix: ApiPrefix = ApiPrefix()
@@ -66,6 +76,5 @@ class Config(BaseSettings):
     osrm: OsrmConfig
     geo: GeoConfig
     debug: bool = False
-
 
 config = Config()
