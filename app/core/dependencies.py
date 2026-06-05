@@ -68,11 +68,14 @@ def get_encryption_service() -> EncryptionService:
 
 
 def get_user_claims(
-    credentials: HTTPAuthorizationCredentials = Depends(http_bearer),
+    request: Request,
     auth_service: JwtAuthService = Depends(get_auth_service),
 ) -> UserClaims:
+    access_token = request.cookies.get("access_token")
+    if not access_token:
+        raise UnauthorizedException("Unauthorized")
     try:
-        return auth_service.get_payload_data(credentials.credentials)
+        return auth_service.get_payload_data(access_token)
     except TokenExpiredException as e:
         raise UnauthorizedException(f"Unauthorized: {e}")
     except (InvalidTokenException, InvalidTokenTypeException) as e:

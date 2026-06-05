@@ -5,6 +5,7 @@ from app.domain.models.coordinate import Coordinate
 
 @dataclass(frozen=True, slots=True)
 class CreateRouteInput:
+    user_id: int
     coords: list[Coordinate]
     profile: str = "driving"
 

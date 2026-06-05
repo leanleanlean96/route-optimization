@@ -6,7 +6,6 @@ from app.api.schemas.routes.coordinate import CoordinateDTO
 
 
 class CreateRouteRequest(BaseModel):
-    user_id: int = Field(gt=0)
     profile: Literal["driving", "walking", "cycling"] = "driving"
     coords: list[CoordinateDTO] = Field(min_length=2)
 

@@ -13,4 +13,4 @@ class DeleteRouteUseCase:
         if route is None:
             raise RouteNotFoundException("Route not found")
 
-        await self.route_repo.delete_by_id(input.route_id)
+        await self.route_repo.delete_by_id(id)
